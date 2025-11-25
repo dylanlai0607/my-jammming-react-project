@@ -20,7 +20,7 @@ function SearchResults(props) {
                     }
                 });
                 const res = await response.json();
-                const items = res.tracks?.items.map(item => ({name: item.name, artist: item.artists[0].name, album: item.album.name, id: item.id})) || [];
+                const items = res.tracks?.items.map(item => ({name: item.name, artist: item.artists[0].name, album: item.album.name, id: item.id, image: item.album.images[2]})) || [];
 
                 setData(items);
             } catch (error) {
