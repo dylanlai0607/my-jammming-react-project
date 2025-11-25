@@ -7,17 +7,17 @@ function SearchBar(props) {
     const handleUserInput = (event) => {
         setSearchTerm(event.target.value);
     }
-    const handleSearchTerm = (event) => {
-        event.preventDefault();
-        setSearchTerm(event.target.value);
-        // console.log("Searching...");
-    }
 
     return (
-        <div>
-            <form onChange={handleSearchTerm}>
-                <input placeholder="Enter A Song, Album, or Artist" onChange={handleUserInput} value={searchTerm} />
-                <button type="submit">SEARCH</button>
+        <div className="searchbar">
+            <form className="search-form" onSubmit={(e) => e.preventDefault()}>
+                <input
+                    className="search-input"
+                    placeholder="Enter A Song, Album, or Artist"
+                    onChange={handleUserInput}
+                    value={searchTerm}
+                />
+                <button className="search-button" type="submit">SEARCH</button>
             </form>
         </div>
     );
