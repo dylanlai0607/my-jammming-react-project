@@ -2,7 +2,7 @@ import React from 'react';
 
 
 function Track(props) {
-    const { songInfo } = props;
+    const { songInfo, onAction, actionLabel } = props;
 
     
 
@@ -12,6 +12,7 @@ function Track(props) {
                 <div className="track-title">{songInfo.name}</div>
                 <div className="track-artist">{songInfo.artist}</div>
                 <div className="track-album">{songInfo.album}</div>
+                <button className="track-add" onClick={() => onAction(songInfo)}>{actionLabel}</button>
             </div>
         </div>
     );

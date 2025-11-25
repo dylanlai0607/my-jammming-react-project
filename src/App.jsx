@@ -22,7 +22,7 @@ function App() {
         </div>
 
         <div className="column right">
-          <Playlist playlist={playlist} />
+          <Playlist playlist={playlist} setPlaylist={setPlaylist}/>
         </div>
       </div>
 

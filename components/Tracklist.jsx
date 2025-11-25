@@ -4,21 +4,18 @@ import Track from './Track.jsx'
 
 function Tracklist(props) {
     const { data, setPlaylist } = props;
+    const actionLabel = "Add to Playlist"
 
     function handleAddToPlaylist(songInfo) {
-
         setPlaylist(prev => [...prev, songInfo])
-        
     }
-
 
     return (
         <div>
             <ul>
                 {data.map((songInfo) => 
                     <li key={songInfo.id}>
-                        <Track songInfo={songInfo} />
-                        <button className="track-add" onClick={() => handleAddToPlaylist(songInfo)}>Add to Playlist</button>
+                        <Track songInfo={songInfo} onAction={handleAddToPlaylist} actionLabel={actionLabel}/>
                     </li>
                 )}
             </ul>
