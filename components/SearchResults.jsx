@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import Tracklist from './Tracklist.jsx';
 
-const token = 'BQAHFQyyLZGlxTxl8YQKaCAM3SqzhWAtgw4yCpiG45q9PphJyIMislBtsu_OlkP0UfzfQMdidQDmNGAvHq1lZbDftchlscta0AP2iIRZbPLA9qC7TFeTHLdBOSnSlSWKEHQcw7xWBvI'
+
+const token = import.meta.env.VITE_SPOTIFY_ACCESS_TOKEN;
 
 function SearchResults(props) {
     const [data, setData] = React.useState([]);
