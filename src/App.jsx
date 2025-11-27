@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import SearchResults from '../components/SearchResults';
 import SearchBar from '../components/SearchBar';
 import Playlist from '../components/Playlist';
+import SpotifyLogin from '../components/SpotifyLogin.jsx';
 
 function App() {
   const [searchTerm, setSearchTerm] = useState("")
@@ -12,6 +11,7 @@ function App() {
 
   return (
     <>
+      <SpotifyLogin />
       <div className="searchbar-container">
         <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
       </div>

@@ -24,6 +24,7 @@ async function getToken() {
 
   if (data.access_token) {
     console.log("🔑 New Spotify token generated!");
+    console.log("Token:", data.access_token);
 
     // Save token to .env.local for your React app
     fs.writeFileSync(
