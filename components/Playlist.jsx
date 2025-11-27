@@ -63,16 +63,22 @@ function Playlist(props) {
                 }
             }
 
+            
+
             // get list of user playlists
             const usersPlaylists = await fetchUserSpotifyPlaylists();
-
+            let playlistId;
             if(usersPlaylists.items.filter(item => item.name === playListName).length === 0) {
                 // create new playlist
                 const newPlaylistInfo = await createNewPlaylist(playListName);
-                console.log('New Playlist Info:', newPlaylistInfo);
+                playlistId = newPlaylistInfo.playlistId
+            } else {
+                //playlist exists
+                playlistId = usersPlaylists.items.filter(item => item.name === playListName)[0].id;
             }
 
             // get id of already created playlist and add tracks
+
 
 
 
