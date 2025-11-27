@@ -142,6 +142,16 @@ app.post('/api/add-tracks', async (req, res) => {
         "uris": req.body.trackUris
       })
     });
+
+    const raw = await response.text();
+    
+    if (!response.ok) {
+      return res.status(response.status).send(raw);
+    }
+
+    const data = JSON.parse(raw);
+    res.json({ playlistId: data.id, name: data.name });
+    
   } catch (error) {
     console.error('Error adding tracks:', error);
     res.status(500).json({ error: 'Failed to add tracks' });

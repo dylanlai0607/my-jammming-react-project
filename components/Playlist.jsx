@@ -73,7 +73,6 @@ function Playlist(props) {
                             trackUris: trackUris
                         })
                     });
-                    console.log("Add tracks response: ", await response.text())
                 } catch (error) {
                     console.error('Error:', error);
                 }
@@ -91,7 +90,7 @@ function Playlist(props) {
                 //playlist exists
                 playlistId = usersPlaylists.items.filter(item => item.name === playListName)[0].id;
             }
-            console.log("frontend playlistId: ", playlistId)
+            
             // get id of already created playlist and add tracks
             await addTracksToPlaylist(playlistId, playlist.map(track => track.uri));
             
