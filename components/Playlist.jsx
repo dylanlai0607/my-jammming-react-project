@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import Track from './Track.jsx'
 
-// const token = import.meta.env.VITE_SPOTIFY_ACCESS_TOKEN;
-// const params = new URLSearchParams(window.location.search);
-// const token = params.get("access_token");
-const userId = import.meta.env.SPOTIFY_USER_ID;
-
 function Playlist(props) {
     const { playlist, setPlaylist } = props;
     const [playListName, setPlaylistName] = useState("");
@@ -23,13 +18,7 @@ function Playlist(props) {
         event.preventDefault();
 
         if(playListName.length > 0 && playlist.length > 0) {
-            // Logic to save playlist here.
-            // Get list of all spotify playlists
-            // Check if name already exists
-            // if it does return the id and post tracks to that playlist
-            // We want a post call to our spotify api/ account to create a playlist using the name
-            // We want to get that id of that playlist then add tracks to that playlist using another post call
-            // then clean up the playlist
+           
             async function fetchUserSpotifyPlaylists() {
                try {
                     const response = await fetch('http://127.0.0.1:8888/api/my-playlists');
@@ -103,8 +92,6 @@ function Playlist(props) {
         } else {
             alert("Please enter a playlist name and add at least one track before saving!");
         }
-        
-
     }
 
     return (

@@ -15,12 +15,10 @@ function App() {
       <div className="searchbar-container">
         <SearchBar setSearchTerm={setSearchTerm} searchTerm={searchTerm} />
       </div>
-
       <div className="main-columns">
         <div className="column left">
           <SearchResults searchTerm={searchTerm} setPlaylist={setPlaylist}/>
         </div>
-
         <div className="column right">
           <Playlist playlist={playlist} setPlaylist={setPlaylist}/>
         </div>

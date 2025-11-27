@@ -7,9 +7,7 @@ const token = import.meta.env.VITE_SPOTIFY_ACCESS_TOKEN;
 function SearchResults(props) {
     const [data, setData] = React.useState([]);
     const { searchTerm, setPlaylist } = props;
-
     const query = encodeURIComponent(searchTerm);
-
 
     useEffect(() => {
         async function fetchData() {
@@ -30,8 +28,6 @@ function SearchResults(props) {
         fetchData();
     }, [searchTerm]);
     
-    
-
     return (
         <div className="search-results">
             <h2>Results</h2>
