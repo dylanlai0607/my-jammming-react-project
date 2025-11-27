@@ -82,7 +82,6 @@ app.get('/callback', async (req, res) => {
 
 app.get('/api/my-playlists', async (req, res) => {
   try {
-    // const accessToken = userAccessToken; 
     const response = await fetch('https://api.spotify.com/v1/me/playlists', {
       headers: {
         'Authorization': `Bearer ${userAccessToken}`,
@@ -96,7 +95,7 @@ app.get('/api/my-playlists', async (req, res) => {
 
     const data = await response.json();
 
-    res.json(data); // send playlists to frontend
+    res.json(data); 
   } catch (error) {
     console.error('Error fetching playlists:', error);
     res.status(500).json({ error: 'Failed to fetch playlists' });
@@ -124,15 +123,28 @@ app.post('/api/create-playlist', async (req, res) => {
     }
 
     const data = JSON.parse(raw);
-    console.log('backend data:', data);
     res.json({ playlistId: data.id, name: data.name });
-    // const data = await response.json();
-    // console.log('Created playlist:', data);
-    // res.json({ playlistId: data.id, name: data.name });
 
   } catch (error) {
-    console.error('Error fetching playlists:', error);
+    console.error('Error creating playlists:', error);
     res.status(500).json({ error: 'Failed to create playlists' });
+  }
+});
+
+app.post('/api/add-tracks', async (req, res) => {
+  try {
+    const response = await fetch(`https://api.spotify.com/v1/playlists/${req.body.playlistId}/tracks`, {
+      method: "POST", headers: {
+      'Authorization': `Bearer ${userAccessToken}`,
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "uris": req.body.trackUris
+      })
+    });
+  } catch (error) {
+    console.error('Error adding tracks:', error);
+    res.status(500).json({ error: 'Failed to add tracks' });
   }
 });
 

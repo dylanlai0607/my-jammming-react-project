@@ -21,7 +21,6 @@ function Playlist(props) {
 
     async function handleSavePlaylist(event) {
         event.preventDefault();
-        
 
         if(playListName.length > 0 && playlist.length > 0) {
             // Logic to save playlist here.
@@ -63,10 +62,26 @@ function Playlist(props) {
                 }
             }
 
-            
+            async function addTracksToPlaylist(playlistId, trackUris) {
+                try {
+                    const response = await fetch('http://127.0.0.1:8888/api/add-tracks', {
+                        method: "POST", headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            playlistId: playlistId,
+                            trackUris: trackUris
+                        })
+                    });
+                    console.log("Add tracks response: ", await response.text())
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
 
             // get list of user playlists
             const usersPlaylists = await fetchUserSpotifyPlaylists();
+            console.log("Front end usersPlaylists: ", usersPlaylists)
             let playlistId;
             if(usersPlaylists.items.filter(item => item.name === playListName).length === 0) {
                 // create new playlist
@@ -76,13 +91,14 @@ function Playlist(props) {
                 //playlist exists
                 playlistId = usersPlaylists.items.filter(item => item.name === playListName)[0].id;
             }
-
+            console.log("frontend playlistId: ", playlistId)
             // get id of already created playlist and add tracks
-
-
-
-
-
+            await addTracksToPlaylist(playlistId, playlist.map(track => track.uri));
+            
+            // Clean up playlist
+            setPlaylist([]);
+            setPlaylistName("");
+            alert(`Playlist "${playListName}" saved successfully!`);
 
 
         } else {
