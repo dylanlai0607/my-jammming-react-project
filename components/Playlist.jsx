@@ -21,7 +21,7 @@ function Playlist(props) {
 
     async function handleSavePlaylist(event) {
         event.preventDefault();
-        // alert(`Playlist "${playListName}" saved!`);
+        
 
         if(playListName.length > 0 && playlist.length > 0) {
             // Logic to save playlist here.
@@ -31,7 +31,6 @@ function Playlist(props) {
             // We want a post call to our spotify api/ account to create a playlist using the name
             // We want to get that id of that playlist then add tracks to that playlist using another post call
             // then clean up the playlist
-
             async function fetchUserSpotifyPlaylists() {
                try {
                     const response = await fetch('http://127.0.0.1:8888/api/my-playlists');
@@ -52,25 +51,28 @@ function Playlist(props) {
                         body: JSON.stringify({
                             playlistName: name
                         })
-                    })
+                    });
                     const raw = await response.text();
-                    console.log('Backend response raw:', raw);
-                    const data = await response.json();
-                    console.log('Backend response:', data);    
+                    if (!response.ok) {
+                        throw new Error(raw);
+                    }
+                    const data = JSON.parse(raw);
+                    return data;   
                 } catch (error) {
                     console.error('Error:', error);
                 }
             }
 
+            // get list of user playlists
             const usersPlaylists = await fetchUserSpotifyPlaylists();
+
             if(usersPlaylists.items.filter(item => item.name === playListName).length === 0) {
                 // create new playlist
-                console.log("Creating new playlist:", playListName);
-                await createNewPlaylist(playListName);
+                const newPlaylistInfo = await createNewPlaylist(playListName);
+                console.log('New Playlist Info:', newPlaylistInfo);
             }
 
-
-            // get id and add tracks
+            // get id of already created playlist and add tracks
 
 
 

@@ -89,13 +89,13 @@ app.get('/api/my-playlists', async (req, res) => {
         'Content-Type': 'application/json'
       }
     });
-
     if (!response.ok) {
       const text = await response.text();
       return res.status(response.status).send(text);
     }
 
     const data = await response.json();
+
     res.json(data); // send playlists to frontend
   } catch (error) {
     console.error('Error fetching playlists:', error);
@@ -105,7 +105,6 @@ app.get('/api/my-playlists', async (req, res) => {
 
 app.post('/api/create-playlist', async (req, res) => {
   try {
-
     const response = await fetch(`https://api.spotify.com/v1/users/${user_id}/playlists`, {
       method: "POST", headers: {
       'Authorization': `Bearer ${userAccessToken}`,
@@ -117,16 +116,19 @@ app.post('/api/create-playlist', async (req, res) => {
         "public": false
       })
     });
+    
     const raw = await response.text();
-    console.log('Backend response raw:', raw);
+    
     if (!response.ok) {
-      const text = await response.text();
-      return res.status(response.status).send(text);
+      return res.status(response.status).send(raw);
     }
 
-    const data = await response.json();
-    console.log('Created playlist:', data);
+    const data = JSON.parse(raw);
+    console.log('backend data:', data);
     res.json({ playlistId: data.id, name: data.name });
+    // const data = await response.json();
+    // console.log('Created playlist:', data);
+    // res.json({ playlistId: data.id, name: data.name });
 
   } catch (error) {
     console.error('Error fetching playlists:', error);
