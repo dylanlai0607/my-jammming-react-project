@@ -1,10 +1,7 @@
 import React from 'react';
 
-
 function Track(props) {
     const { songInfo, onAction, actionLabel } = props;
-
-    
 
     return (
         <div className="track-card">

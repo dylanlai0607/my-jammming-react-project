@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Tracklist from './Tracklist.jsx';
-
 
 const token = import.meta.env.VITE_SPOTIFY_ACCESS_TOKEN;
 
 function SearchResults(props) {
-    const [data, setData] = React.useState([]);
+    const [data, setData] = useState([]);
     const { searchTerm, setPlaylist } = props;
     const query = encodeURIComponent(searchTerm);
 
@@ -13,13 +12,20 @@ function SearchResults(props) {
         async function fetchData() {
             try {
                 const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track`, {
-                    method: "GET", headers: {
+                    method: "GET",
+                    headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
                 const res = await response.json();
-                const items = res.tracks?.items.map(item => ({name: item.name, artist: item.artists[0].name, album: item.album.name, id: item.id, image: item.album.images[2], uri: item.uri})) || [];
-
+                const items = res.tracks?.items.map(item => ({
+                    name: item.name,
+                    artist: item.artists[0].name,
+                    album: item.album.name,
+                    id: item.id,
+                    image: item.album.images[2],
+                    uri: item.uri
+                })) || [];
                 setData(items);
             } catch (error) {
                 console.error('Error:', error);
@@ -27,7 +33,7 @@ function SearchResults(props) {
         }
         fetchData();
     }, [searchTerm]);
-    
+
     return (
         <div className="search-results">
             <h2>Results</h2>

@@ -72,13 +72,43 @@ app.get('/callback', async (req, res) => {
 
     const tokenData = await tokenResponse.json();
     userAccessToken = tokenData.access_token;
+    console.log(userAccessToken)
     res.redirect(`http://localhost:5173?access_token=${tokenData.access_token}`);
-
-  } catch (err) {
+  } catch (error) {
     console.error('Error fetching access token:', err);
     res.send('Error getting access token from Spotify.');
   }
 });
+
+app.get('/auth-status', async (req, res) => {
+  if (userAccessToken) {
+    res.json({ authenticated: true });
+  } else {
+    res.json({ authenticated: false });
+  }
+})
+
+app.get('/api/my-profile', async (req, res) => {
+  try {
+    const response = await fetch('https://api.spotify.com/v1/me', {
+      headers: {
+        'Authorization': `Bearer ${userAccessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    if (!response.ok) {
+        const text = await response.text();
+      return res.status(response.status).send(text);
+    }
+
+    const data = await response.json();
+
+    res.json(data); 
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    res.status(500).json({ error: 'Failed to fetch profile' });
+  }
+})
 
 app.get('/api/my-playlists', async (req, res) => {
   try {
@@ -151,7 +181,7 @@ app.post('/api/add-tracks', async (req, res) => {
 
     const data = JSON.parse(raw);
     res.json({ playlistId: data.id, name: data.name });
-    
+
   } catch (error) {
     console.error('Error adding tracks:', error);
     res.status(500).json({ error: 'Failed to add tracks' });

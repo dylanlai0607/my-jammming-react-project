@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 
 function SearchBar(props) {
     const { searchTerm, setSearchTerm } = props;
 
     const handleUserInput = (event) => {
         setSearchTerm(event.target.value);
-    }
+    };
 
     return (
         <div className="searchbar">
